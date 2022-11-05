@@ -118,6 +118,7 @@ function generateCart() {
     }
   }
   calculateTotal();
+  applyPromotionsCart();
   console.log(cart);
   console.log(cartList);
   console.log(total);
@@ -126,6 +127,21 @@ function generateCart() {
 // Exercise 5
 function applyPromotionsCart() {
   // Apply promotions to each item in the array "cart"
+  for (let i = 0; i < cart.length; i++) {
+    let discount = cart[i].offer;
+    let cantidad = cart[i].quantity;
+    if (discount && cantidad >= cart[i].offer.number) {
+      const price = cart[i].price * cantidad;
+      const percent = cart[i].offer.percent;
+      const discountPercent = (price * percent) / 100;
+      cart[i].subtotalWithDiscount = price - discountPercent;
+      cart[i].subtotal = price;
+    } else {
+      const price = cart[i].price * cantidad;
+      cart[i].subtotal = price;
+      cart[i].subtotalWithDiscount = price;
+    }
+  }
 }
 
 // Exercise 6
