@@ -80,10 +80,12 @@ function buy(id) {
   console.log(cartList);
 }
 
-
 // Exercise 2
 function cleanCart() {
-  
+  while (cartList.length > 0) {
+    cartList.pop();
+  }
+  console.log(cartList);
 }
 
 // Exercise 3
