@@ -77,8 +77,8 @@ function buy(id) {
   // 2. Add found product to the cartList array
   const item = products.find((e) => id === e.id);
   cartList.push(item);
-  console.log(cartList);
-  calculateTotal();
+  //console.log(cartList);
+  generateCart();
 }
 
 // Exercise 2
@@ -97,13 +97,30 @@ function calculateTotal() {
   for (let i = 0; i < cartList.length; i++) {
     total += cartList[i].price;
   }
-  console.log(total);
+  //console.log(total);
 }
 
 // Exercise 4
 function generateCart() {
   // Using the "cartlist" array that contains all the items in the shopping cart,
   // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+  cart.length = 0;
+  for (let i = 0; i < cartList.length; i++) {
+    let productFound = cart.find((e) => e.id === cartList[i].id);
+    if (!productFound) {
+      cartList[i].quantity = 1;
+      cartList[i].subtotal = cartList[i].price;
+      cart.push(cartList[i]);
+    }
+    if (productFound) {
+      productFound.quantity++;
+      productFound.subtotal += productFound.price;
+    }
+  }
+  calculateTotal();
+  console.log(cart);
+  console.log(cartList);
+  console.log(total);
 }
 
 // Exercise 5
