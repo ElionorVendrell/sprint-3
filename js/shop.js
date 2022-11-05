@@ -78,12 +78,14 @@ function buy(id) {
   const item = products.find((e) => id === e.id);
   cartList.push(item);
   console.log(cartList);
+  calculateTotal();
 }
 
 // Exercise 2
 function cleanCart() {
   while (cartList.length > 0) {
     cartList.pop();
+    calculateTotal();
   }
   console.log(cartList);
 }
@@ -91,6 +93,11 @@ function cleanCart() {
 // Exercise 3
 function calculateTotal() {
   // Calculate total price of the cart using the "cartList" array
+  total = 0;
+  for (let i = 0; i < cartList.length; i++) {
+    total += cartList[i].price;
+  }
+  console.log(total);
 }
 
 // Exercise 4
