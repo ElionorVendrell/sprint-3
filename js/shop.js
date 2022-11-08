@@ -206,17 +206,18 @@ function addToCart(id) {
 }
 
 // Exercise 8
-/* function removeFromCart(id) {
-  let itemRemove = cart.find((e) => e.id === cartList[i].id);
-  if (itemRemove) {
-    itemRemove.quantity--;
-
-    generateCart();
-    applyPromotionsCart();
-    calculateTotal();
+/*   let remove = cart.findIndex(p => p.id == e.target.id);
+    cart.splice(index,cantidad ); */
+function removeFromCart(id) {
+  let remove = cart.find((e) => e.id === e.target.id);
+  if (remove) {
+    cart.splice(remove, 1);
   }
+  generateCart();
+  applyPromotionsCart();
+  calculateTotal();
   console.log(cart);
-} */
+}
 
 function open_modal() {
   console.log("Open Modal");
