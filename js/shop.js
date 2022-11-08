@@ -63,18 +63,14 @@ const products = [
     type: "clothes",
   },
 ];
-// Array with products (objects) added directly with push(). Products in this array are repeated.
 const cartList = [];
 
-// Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
 const cart = [];
 
 let total = 0;
 
 // Exercise 1
 function buy(id) {
-  // 1. Loop for to the array products to get the item to add to cart
-  // 2. Add found product to the cartList array
   const item = products.find((e) => id === e.id);
   cartList.push(item);
   //console.log(cartList);
@@ -83,42 +79,52 @@ function buy(id) {
 
 // Exercise 2
 function cleanCart() {
+  while (cart.length > 0) {
+    cart.pop();
+  }
   while (cartList.length > 0) {
     cartList.pop();
-    calculateTotal();
   }
-  console.log(cartList);
+  generateCart();
+  calculateTotal();
+  printCart();
+  console.log(cart);
 }
 
 // Exercise 3
+
 function calculateTotal() {
-  // Calculate total price of the cart using the "cartList" array
   total = 0;
-  for (let i = 0; i < cartList.length; i++) {
+  /* for (let i = 0; i < cartList.length; i++) {
     total += cartList[i].price;
+  } */
+  for (let i = 0; i < cart.length; i++) {
+    total += cart[i].subtotalWithDiscount;
   }
+
   //console.log(total);
 }
 
 // Exercise 4
 function generateCart() {
-  // Using the "cartlist" array that contains all the items in the shopping cart,
-  // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
   cart.length = 0;
   for (let i = 0; i < cartList.length; i++) {
     let productFound = cart.find((e) => e.id === cartList[i].id);
     if (!productFound) {
-      cartList[i].quantity = 1;
-      cartList[i].subtotal = cartList[i].price;
-      cart.push(cartList[i]);
-    }
-    if (productFound) {
+      let newProductToAddToCart = { ...cartList[i] };
+      newProductToAddToCart.quantity = 1;
+      //cartList[i].quantity = 1;
+      // cartList[i].subtotal = cartList[i].price;
+      cart.push(newProductToAddToCart);
+    } else if (productFound) {
       productFound.quantity++;
       productFound.subtotal += productFound.price;
     }
   }
-  calculateTotal();
+  document.getElementById("count_product").innerHTML = cartList.length;
   applyPromotionsCart();
+  calculateTotal();
+
   console.log(cart);
   console.log(cartList);
   console.log(total);
@@ -126,7 +132,6 @@ function generateCart() {
 
 // Exercise 5
 function applyPromotionsCart() {
-  // Apply promotions to each item in the array "cart"
   for (let i = 0; i < cart.length; i++) {
     let discount = cart[i].offer;
     let cantidad = cart[i].quantity;
@@ -141,12 +146,54 @@ function applyPromotionsCart() {
       cart[i].subtotal = price;
       cart[i].subtotalWithDiscount = price;
     }
+    /* if (cart[i].subtotal === cart[i].subtotalWithDiscount) {
+      delete cart[i].subtotalWithDiscount;
+    } */
   }
 }
 
 // Exercise 6
 function printCart() {
-  // Fill the shopping cart modal manipulating the shopping cart dom
+  document.getElementById("cart_list").innerHTML = `<thead>
+  <tr>
+    <th scope="col">Product</th>
+    <th scope="col">Price</th>
+    <th scope="col">Qty.</th>
+    <th scope="col">Total <small>(with discount)</small></th>
+  </tr>
+  </thead>`;
+  for (i = 0; i < cart.length; i++) {
+    document.getElementById("cart_list").innerHTML += `<tr>
+    <th scope="row">${cart[i].name}</th>
+    <td>${cart[i].price}</td>
+    <td>${cart[i].quantity}</td>
+    <td>${
+      cart[i].subtotalWithDiscount
+        ? cart[i].subtotalWithDiscount
+        : cart[i].subtotal
+    }</td> 
+    <td> 
+    <img class= "btn" 
+    alt="imagen papelera" 
+    onclick="removeFromCart(id)" 
+    src="images/trash.svg">
+    </td> 
+</tr>`;
+
+    /* let descuento = 0;
+    descuento += cart[i].subtotalWithDiscount;
+    let diferencia = 0;
+    diferencia = total - descuento;
+    resumen = 0;
+    resument = total - diferencia;
+    console.log(resumen); */
+  }
+  document.getElementById("total_price").innerHTML = total + "€";
+
+  document.getElementById("count_product").innerHTML = cartList.length;
+
+  // console.log(cart[subtotalWithDiscount]);
+  // console.log(cart[subtotal]);
 }
 
 // ** Nivell II **
@@ -159,10 +206,17 @@ function addToCart(id) {
 }
 
 // Exercise 8
-function removeFromCart(id) {
-  // 1. Loop for to the array products to get the item to add to cart
-  // 2. Add found product to the cartList array
-}
+/* function removeFromCart(id) {
+  let itemRemove = cart.find((e) => e.id === cartList[i].id);
+  if (itemRemove) {
+    itemRemove.quantity--;
+
+    generateCart();
+    applyPromotionsCart();
+    calculateTotal();
+  }
+  console.log(cart);
+} */
 
 function open_modal() {
   console.log("Open Modal");
