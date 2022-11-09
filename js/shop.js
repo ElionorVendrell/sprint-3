@@ -69,13 +69,13 @@ const cart = [];
 
 let total = 0;
 
-// Exercise 1
+/* // Exercise 1
 function buy(id) {
   const item = products.find((e) => id === e.id);
   cartList.push(item);
   //console.log(cartList);
   generateCart();
-}
+} */
 
 // Exercise 2
 function cleanCart() {
@@ -85,7 +85,7 @@ function cleanCart() {
   while (cartList.length > 0) {
     cartList.pop();
   }
-  generateCart();
+  //-----> generateCart();
   calculateTotal();
   printCart();
   console.log(cart);
@@ -106,7 +106,7 @@ function calculateTotal() {
 }
 
 // Exercise 4
-function generateCart() {
+/* function generateCart() {
   cart.length = 0;
   for (let i = 0; i < cartList.length; i++) {
     let productFound = cart.find((e) => e.id === cartList[i].id);
@@ -128,7 +128,7 @@ function generateCart() {
   console.log(cart);
   console.log(cartList);
   console.log(total);
-}
+} */
 
 // Exercise 5
 function applyPromotionsCart() {
@@ -182,18 +182,46 @@ function printCart() {
 </tr>`;
     cartLength += cart[i].quantity;
   }
-  document.getElementById("total_price").innerHTML = total + "€";
   document.getElementById("count_product").innerHTML = cartLength;
+  document.getElementById("total_price").innerHTML = total + "€";
 }
 
 // ** Nivell II **
 
 // Exercise 7
 function addToCart(id) {
-  // Refactor previous code in order to simplify it
-  // 1. Loop for to the array products to get the item to add to cart
-  // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+  // 1. encontrar producto en product para poder añadirlo al carrito
+  for (let i = 0; i < products.length; i++) {
+    // 2. Lo clonamos para evitar problemas
+    const productClone = { ...newProduct };
+    // 3. Añadimos lo que queramos antes de añadirlo
+    // 4. Buscar si el elemento dentro de cart
+    let productInCart = cart.find((item) => item.id === id);
+
+    // 5. Añadirlo al carrito
+    if (!productInCart) {
+      productClone.quantity = 1;
+      cart.push(productClone);
+    } else {
+      productClone.quantity++;
+    }
+  }
+
+  applyPromotionsCart();
+  calculateTotal();
+  printCart();
+
+  //console.log(cart);
+  //console.log(total);
 }
+
+/* let newProduct = products.find((e) => id === e.id); 
+ if (!newProduct.quantity) {
+    newProduct.quantity = 1;
+    cart.push(newProduct);
+  } else {
+    newProduct.quantity++;
+  } */
 
 // Exercise 8
 function removeFromCart(id) {
@@ -203,15 +231,14 @@ function removeFromCart(id) {
   } else {
     cart.splice(remove, 1);
   }
-  let remove2 = cartList.find((e) => e.id === id);
+  /*  let remove2 = cartList.find((e) => e.id === id);
   if (remove2) {
     cartList.splice(remove2);
-  }
+  } */
   applyPromotionsCart();
   calculateTotal();
   printCart();
   console.log(cart);
-  console.log(cartList);
 }
 
 function open_modal() {
