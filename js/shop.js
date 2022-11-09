@@ -162,6 +162,7 @@ function printCart() {
     <th scope="col">Total <small>(with discount)</small></th>
   </tr>
   </thead>`;
+  let cartLength = 0;
   for (i = 0; i < cart.length; i++) {
     document.getElementById("cart_list").innerHTML += `<tr>
     <th scope="row">${cart[i].name}</th>
@@ -175,25 +176,14 @@ function printCart() {
     <td> 
     <img class= "btn" 
     alt="imagen papelera" 
-    onclick="removeFromCart(id)" 
+    onclick="removeFromCart(${cart[i].id})" 
     src="images/trash.svg">
     </td> 
 </tr>`;
-
-    /* let descuento = 0;
-    descuento += cart[i].subtotalWithDiscount;
-    let diferencia = 0;
-    diferencia = total - descuento;
-    resumen = 0;
-    resument = total - diferencia;
-    console.log(resumen); */
+    cartLength += cart[i].quantity;
   }
   document.getElementById("total_price").innerHTML = total + "€";
-
-  document.getElementById("count_product").innerHTML = cartList.length;
-
-  // console.log(cart[subtotalWithDiscount]);
-  // console.log(cart[subtotal]);
+  document.getElementById("count_product").innerHTML = cartLength;
 }
 
 // ** Nivell II **
@@ -206,17 +196,22 @@ function addToCart(id) {
 }
 
 // Exercise 8
-/*   let remove = cart.findIndex(p => p.id == e.target.id);
-    cart.splice(index,cantidad ); */
 function removeFromCart(id) {
-  let remove = cart.find((e) => e.id === e.target.id);
-  if (remove) {
+  let remove = cart.findIndex((e) => e.id === id);
+  if (cart[remove].quantity > 1) {
+    cart[remove].quantity--;
+  } else {
     cart.splice(remove, 1);
   }
-  generateCart();
+  let remove2 = cartList.find((e) => e.id === id);
+  if (remove2) {
+    cartList.splice(remove2);
+  }
   applyPromotionsCart();
   calculateTotal();
+  printCart();
   console.log(cart);
+  console.log(cartList);
 }
 
 function open_modal() {
