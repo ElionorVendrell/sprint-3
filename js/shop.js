@@ -189,15 +189,15 @@ function printCart() {
 // ** Nivell II **
 
 // Exercise 7
-function addToCart(id) {
+/* function addToCart(id) {
   // 1. encontrar producto en product para poder añadirlo al carrito
   for (let i = 0; i < products.length; i++) {
     // 2. Lo clonamos para evitar problemas
-    const productClone = { ...newProduct };
-    // 3. Añadimos lo que queramos antes de añadirlo
+    const productClone = { ...products[i] };
+
     // 4. Buscar si el elemento dentro de cart
     let productInCart = cart.find((item) => item.id === id);
-
+    // 3. Añadimos lo que queramos antes de añadirlo
     // 5. Añadirlo al carrito
     if (!productInCart) {
       productClone.quantity = 1;
@@ -211,9 +211,9 @@ function addToCart(id) {
   calculateTotal();
   printCart();
 
-  //console.log(cart);
-  //console.log(total);
-}
+  console.log(cart);
+  console.log(total);
+} */
 
 /* let newProduct = products.find((e) => id === e.id); 
  if (!newProduct.quantity) {
