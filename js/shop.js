@@ -1,4 +1,3 @@
-// If you have time, you can move this variable "products" to a json or js file and load the data in this js. It will look more professional
 const products = [
   {
     id: 1,
@@ -69,13 +68,12 @@ const cart = [];
 
 let total = 0;
 
-/* // Exercise 1
+// Exercise 1
 function buy(id) {
   const item = products.find((e) => id === e.id);
   cartList.push(item);
-  //console.log(cartList);
   generateCart();
-} */
+}
 
 // Exercise 2
 function cleanCart() {
@@ -85,7 +83,7 @@ function cleanCart() {
   while (cartList.length > 0) {
     cartList.pop();
   }
-  //-----> generateCart();
+  generateCart();
   calculateTotal();
   printCart();
   console.log(cart);
@@ -95,26 +93,19 @@ function cleanCart() {
 
 function calculateTotal() {
   total = 0;
-  /* for (let i = 0; i < cartList.length; i++) {
-    total += cartList[i].price;
-  } */
   for (let i = 0; i < cart.length; i++) {
     total += cart[i].subtotalWithDiscount;
   }
-
-  //console.log(total);
 }
 
 // Exercise 4
-/* function generateCart() {
+function generateCart() {
   cart.length = 0;
   for (let i = 0; i < cartList.length; i++) {
     let productFound = cart.find((e) => e.id === cartList[i].id);
     if (!productFound) {
       let newProductToAddToCart = { ...cartList[i] };
       newProductToAddToCart.quantity = 1;
-      //cartList[i].quantity = 1;
-      // cartList[i].subtotal = cartList[i].price;
       cart.push(newProductToAddToCart);
     } else if (productFound) {
       productFound.quantity++;
@@ -128,7 +119,7 @@ function calculateTotal() {
   console.log(cart);
   console.log(cartList);
   console.log(total);
-} */
+}
 
 // Exercise 5
 function applyPromotionsCart() {
@@ -146,9 +137,6 @@ function applyPromotionsCart() {
       cart[i].subtotal = price;
       cart[i].subtotalWithDiscount = price;
     }
-    /* if (cart[i].subtotal === cart[i].subtotalWithDiscount) {
-      delete cart[i].subtotalWithDiscount;
-    } */
   }
 }
 
@@ -188,23 +176,22 @@ function printCart() {
 
 // ** Nivell II **
 
-// Exercise 7
-/* function addToCart(id) {
-  // 1. encontrar producto en product para poder añadirlo al carrito
-  for (let i = 0; i < products.length; i++) {
-    // 2. Lo clonamos para evitar problemas
-    const productClone = { ...products[i] };
+// Exercise 7 REFACTORIZAR
 
-    // 4. Buscar si el elemento dentro de cart
-    let productInCart = cart.find((item) => item.id === id);
-    // 3. Añadimos lo que queramos antes de añadirlo
-    // 5. Añadirlo al carrito
-    if (!productInCart) {
-      productClone.quantity = 1;
-      cart.push(productClone);
-    } else {
-      productClone.quantity++;
+/* function addToCart(id) {
+  let productClone;
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].id === id) {
+      productClone = { ...products[i] };
     }
+  }
+
+  const findProduct = cart.find((e) => id === e.id);
+  if (!findProduct) {
+    findProduct.cantidad = 1;
+    cart.push(findProduct);
+  } else {
+    findProduct.cantidad++;
   }
 
   applyPromotionsCart();
@@ -215,14 +202,6 @@ function printCart() {
   console.log(total);
 } */
 
-/* let newProduct = products.find((e) => id === e.id); 
- if (!newProduct.quantity) {
-    newProduct.quantity = 1;
-    cart.push(newProduct);
-  } else {
-    newProduct.quantity++;
-  } */
-
 // Exercise 8
 function removeFromCart(id) {
   let remove = cart.findIndex((e) => e.id === id);
@@ -231,10 +210,10 @@ function removeFromCart(id) {
   } else {
     cart.splice(remove, 1);
   }
-  /*  let remove2 = cartList.find((e) => e.id === id);
+  let remove2 = cartList.find((e) => e.id === id);
   if (remove2) {
     cartList.splice(remove2);
-  } */
+  }
   applyPromotionsCart();
   calculateTotal();
   printCart();
